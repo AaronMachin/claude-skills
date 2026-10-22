@@ -6,6 +6,11 @@ Two skills for Claude Code, for work that is too big for one agent session.
 
 ```
 /plugin marketplace add AaronMachin/claude-skills
+```
+
+then, as a separate command:
+
+```
 /plugin install workstream-planning@claude-skills
 ```
 
@@ -19,6 +24,8 @@ writes point their own agents at `superpowers:writing-plans`,
 
 ## planning-workstreams
 
+<img src="docs/prompts-folder.svg" alt="A prompts folder holding one numbered prompt per workstream" width="420">
+
 Splits a large piece of work into workstreams and writes the prompt that starts each one, so
 several agents can run them at the same time or one after another.
 
@@ -27,7 +34,16 @@ with separate orders for specifying and building, what the plan assumes and what
 decided on your behalf, an append-only log every agent writes to, and one prompt per workstream.
 
 Each prompt hands its agent a piece of the problem to work out rather than a list of tasks, so
-the agent runs its own brainstorm, spec and plan for its slice. It also says what that
+the agent runs its own brainstorm, spec and plan for its slice.
+
+<img src="docs/decisions.svg" alt="Decisions from a planning session, grouped by the repository they apply to" width="760">
+
+## run-workstream
+
+Reads a plan and says where every workstream stands: what has been specced, built, reviewed or
+merged, what is blocked and on which check, and what can start right now. It works that out from
+the log, the branches, the pull requests and the readiness checks each prompt carries, then hands
+you the command to start the one you pick. It reads and reports, and changes nothing. It also says what that
 workstream may change, what it may do outside the working tree, and how it knows it has
 finished.
 
