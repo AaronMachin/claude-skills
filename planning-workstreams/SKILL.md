@@ -17,12 +17,14 @@ You're planning. You're not building anything and you're not writing specs.
 
 One question at a time, and only about what the user hasn't already told you. Settle at least:
 
+- **What you're splitting.** The work the material describes, or the work of designing it. Read the material before you ask: where it already holds decisions with reasons and a date on them, the design is settled and you're splitting the build. Where it holds options and open questions, you're splitting the design, which is two or three workstreams rather than nine. Ask this first and wait for the answer, because everything underneath it is worthless if it's wrong.
 - **Where each agent stops.** Brainstorm and spec, spec and plan, or built and merged.
 - **How the workstreams run.** Whether each agent gets its own git worktree so several can run at once, or they share one checkout and go one after another. A branch per workstream off the main branch, branches stacked where one depends on another, or commits straight onto the main branch. A pull request each, one at the end, or none. How branches are named. And if several run at once they share more than files: settle how each one gets its own test database, ports and container names, and write the command into `common.md`. Where running the tests takes a wrapper, write one runner script per workstream into the shared folder, plus a template the next one copies, rather than leaving every agent to work the invocation out again.
 - **Tickets.** Whether tickets already exist for this work or the agents create their own, and separately whether there's already an epic or parent ticket covering the whole project or the user wants one created from it. If the workstream tickets exist, get the key for each one and for the parent, and check whether any ticket has no workstream covering it. If they don't, get the tracker and project to create them in, the issue type, and whatever the team expects every ticket to carry: the summary shape, labels, components, estimate, acceptance criteria. If there's no tracker at all, say that in `common.md` so no agent invents one.
 - **What's already decided** and must not be reopened, against what's still open for the agents to settle with the user.
 - **Designs, specs or documents** the agents must read. Get the order that settles it when two of them disagree, as an ordered list, and write that list into `common.md`.
 - **Where two workstreams meet**, settle the shape between them now rather than leaving it for later. A sketched endpoint or signature the user has approved lets both sides start today; "read the log for it when it lands" turns an agreement into a queue.
+- **What the work does outside the repository**, and who authorises each one: applying infrastructure, deploying, creating or deleting resources in a shared account, writing to a live datastore, sending anything to a third party. Get the rule for each, because a file is recoverable and these aren't.
 - **Which repositories and directories** are in scope. Where there's more than one, settle which repo hosts the shared folder, and get the main checkout path, the worktree naming and the test command for each, because `common.md` needs a row per repository.
 
 Work out the "read first" list from the repository itself rather than assuming: its CLAUDE.md or AGENTS.md, any rules index those point at, how tests are run, how code is formatted, and anything CI enforces on new files. Name the measures it already has and the bar each one sets, because that's what the agents have to clear. Where something worth measuring isn't measured at all, say what you'd add and why it matters in one line, and offer it as its own workstream for the user to take or drop. Never bolt new tooling onto a workstream that's there to do something else.
@@ -30,6 +32,8 @@ Work out the "read first" list from the repository itself rather than assuming: 
 Research runs while you brainstorm, through subagents rather than in your own context. One narrow question each (on Claude Code, Explore or general-purpose), and ask for a short answer with `file:line` references rather than file contents. It's how you find out what the workstreams are, so it can't wait until after the map. Hold the findings in your replies until the map is approved, then write them to `background.md` so no agent reads the same code twice.
 
 Before you show the map, walk the source material item by item - the designs, the tickets, the document the work comes from - and name the workstream that covers each one. Anything with no workstream against it is either scope you're dropping, which you say so in the README, or a workstream you haven't written yet. Then go the other way: anything in a workstream that traces back to nothing is scope someone invented.
+
+Draw the system before you draw the grid: the pieces as they'll be once the work is done, what calls what, and which workstream owns each piece, as a diagram in the README. It does two jobs a table can't. A table of workstreams can't show that you've understood the thing backwards, and a picture can, which is where someone looks at it and says no, the browser goes here first. And a split by layer that you'd defend in prose is obvious the moment it's drawn, because one workstream owns a band straight across the middle.
 
 Then draw the dependency grid: workstreams down the side, the same list across the top, a mark in each cell where the row needs something from the column: `D:` where the row needs a shape or a decision agreed before it can specify its own work, `B:` where it needs merged code before it can build. Then a word saying which shape, which decision, which code. A row with no marks can start now. A pair marked both ways isn't two workstreams, it's one you've cut down the middle.
 
@@ -55,7 +59,7 @@ All of it goes in one folder every agent reaches by the same absolute path, what
 
 | File | What's in it |
 |---|---|
-| `README.md` | What the project is, the outcome the workstreams exist to deliver written so you can tell whether it's been met, the dependency grid, the phase table, who owns each shared file, the merge order, and the log protocol |
+| `README.md` | What the project is, the outcome the workstreams exist to deliver written so you can tell whether it's been met, the diagram, what the plan assumes, the dependency grid, the phase table, who owns each shared file, the merge order, and the log protocol |
 | `common.md` | Everything every agent does the same way, as headings with answers under them rather than topics |
 | `decisions.md` | What's settled before anyone starts. One writer, the person who planned this. Agents build on it and don't edit it |
 | `background.md` | Your subagents' findings, with `file:line` references |
@@ -97,12 +101,22 @@ A fresh agent reads only this file and `common.md`, so each prompt stands on its
 3. **The points to settle with the user**, as questions rather than answers. Where you think you know the answer, say what you currently think it is and that it's one option to test against the others, not the answer. Mark anything you haven't verified UNCONFIRMED and tell the agent to check it.
 4. **The research the agent must do** with its own subagents before proposing anything, named as specific questions.
 5. **Dependencies, by the stage each one bites, and the check that it's met.** Not one list but four: what it needs before it can spec and plan, what it needs before it can build, what it needs before it can deploy or merge, and what other workstreams are waiting on from it. Name the other workstream and the exact thing, and check that workstream's prompt says it produces it, because a dependency only one side knows about is the one that bites. Write each check as the command that settles it, the `grep` of the log for the contract or the check that a branch is merged, and make the first of them the agent's first action, so it stops and says so rather than starting and guessing.
-6. **What it may change.** The files and directories this workstream owns or may edit, and the shared ones it must ask about first. If the work turns out to need a change outside that list, the agent logs it as a request and asks the user rather than making it.
+6. **What it may change, and what it may do.** The files and directories this workstream owns or may edit, and the shared ones it must ask about first. If the work turns out to need a change outside that list, the agent logs it as a request and asks the user rather than making it.
+
+   Then the same for actions that reach outside the working tree: applying infrastructure, deploying, creating or deleting anything in a shared account, writing to a live datastore. Name the ones this workstream will need, and say that before each one the agent states what it is about to change and why that is safe, then waits. A wrong file edit is recoverable from git. These aren't, and an agent mid-flow will take one without noticing it crossed a line.
 7. **Done means.** What proves this one finished, not the checks `common.md` already sets for everybody: the command to run, what its output has to say, and the evidence that goes in the log as a status entry. Where the agent builds, it has a fresh subagent review its diff against its own approved plan before calling it done, asking for gaps against the plan rather than style. Where the agent stops at a spec or a plan, the approval is the finish line, so say what that document has to cover to earn it.
 
 Gate only on checks whose failure is specific and visible: a failing test, a type error, a lint rule, an accessibility violation. Numbers like complexity or a maintainability index are a reason to look, never a bar to clear - the moment one is a gate, hitting it becomes the job, and an agent will split a function in two badly-named halves to move it. Where a prompt names one, it says the number gets reported and explained in the log, and read by the reviewing subagent rather than by the agent that wrote the code.
 
 The last thing each prompt asks is whether what got built still serves the one line this workstream was created for, and the outcome in the README. If it doesn't, the agent says so rather than closing it.
+
+## What the plan assumes
+
+Two lists in the README, because a plan that can't say what it's standing on can't be checked when the ground moves.
+
+**What it assumes about the world**, each with what it voids if it turns out to be wrong: this assumes the design in that document is settled, and if it reopens then workstreams 3 and 4 go with it. Something outside the work will change, and on a project this size it will happen more than once. This is the list that says what to throw away, instead of re-reading everything to find out.
+
+**What you decided on the user's behalf**, where they weren't there to ask. Mark each one as yours rather than theirs, and say so in the prompt that owns it, so the first agent to reach it logs a `challenge` and asks rather than quietly building on your guess.
 
 ## Review the set before you hand it over
 
