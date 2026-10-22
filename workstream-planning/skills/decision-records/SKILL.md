@@ -43,9 +43,9 @@ A record is two files, and most of the point is the split:
 ```
 docs/decisions/
   README.md                         the index
-  0007-orders-are-never-deleted.md      the decision: the frozen statement everything cites
+  0007-orders-are-never-deleted.md    the decision: the frozen statement everything cites
   details/
-    0007-orders-are-never-deleted.md    the working: optional, same number, same name
+    0007-orders-are-never-deleted.md  the working: optional, same number, same name
 ```
 
 The decision file is half a page and it's what gets read, cited and loaded into a session. The details file holds what it took to get there, and gets opened only when someone needs the why. Keeping them apart is what stops an agent that needs one line paying for twelve sections of working, and `docs/decisions/*.md` globs to exactly the decisions without dragging the details in.
