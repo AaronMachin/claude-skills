@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="460" height="150" viewBox="0 0 460 150" fill="none">
+  <g stroke-width="7" stroke-linecap="round" fill="none">
+    <path d="M96 62 C150 62 150 22 206 22 L254 22 C310 22 310 62 364 62" stroke="#6cb6ff"/>
+    <path d="M96 62 L364 62" stroke="#c8a3ff"/>
+    <path d="M96 62 C150 62 150 102 206 102 L254 102 C310 102 310 62 364 62" stroke="#7ee787"/>
+  </g>
+  <circle cx="90" cy="62" r="13" fill="#6e7781"/>
+  <circle cx="370" cy="62" r="13" fill="#6e7781"/>
+  <text x="230" y="131" text-anchor="middle" fill="#6e7781" font-size="19" letter-spacing="3"
+        font-family="ui-monospace, SFMono-Regular, Menlo, monospace">claude-skills</text>
+</svg>
