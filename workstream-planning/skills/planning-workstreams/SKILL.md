@@ -19,7 +19,7 @@ One question at a time, and only about what the user hasn't already told you. Se
 
 - **What you're splitting.** The work the material describes, or the work of designing it. Read the material before you ask: where it already holds decisions with reasons and a date on them, the design is settled and you're splitting the build. Where it holds options and open questions, you're splitting the design, which is two or three workstreams rather than nine. Ask this first and wait for the answer, because everything underneath it is worthless if it's wrong.
 - **Where each agent stops.** Brainstorm and spec, spec and plan, or built and merged.
-- **How the workstreams run.** Whether each agent gets its own git worktree so several can run at once, or they share one checkout and go one after another. A branch per workstream off the main branch, branches stacked where one depends on another, or commits straight onto the main branch. A pull request each, one at the end, or none. How branches are named. And if several run at once they share more than files: settle how each one gets its own test database, ports and container names, and write the command into `common.md`. Where running the tests takes a wrapper, write one runner script per workstream into the shared folder, plus a template the next one copies, rather than leaving every agent to work the invocation out again.
+- **How the workstreams run.** Whether each workstream is a session somebody starts and talks to, or a subagent this session dispatches, which changes what the briefs have to contain (see below). Whether each agent gets its own git worktree so several can run at once, or they share one checkout and go one after another. A branch per workstream off the main branch, branches stacked where one depends on another, or commits straight onto the main branch. A pull request each, one at the end, or none. How branches are named. And if several run at once they share more than files: settle how each one gets its own test database, ports and container names, and write the command into `common.md`. Where running the tests takes a wrapper, write one runner script per workstream into the shared folder, plus a template the next one copies, rather than leaving every agent to work the invocation out again.
 - **Tickets.** Whether tickets already exist for this work or the agents create their own, and separately whether there's already an epic or parent ticket covering the whole project or the user wants one created from it. If the workstream tickets exist, get the key for each one and for the parent, and check whether any ticket has no workstream covering it. If they don't, get the tracker and project to create them in, the issue type, and whatever the team expects every ticket to carry: the summary shape, labels, components, estimate, acceptance criteria. If there's no tracker at all, say that in `common.md` so no agent invents one.
 - **What's already decided** and must not be reopened, against what's still open for the agents to settle with the user.
 - **Whether the project keeps decision records**, and where. Where it does, read the accepted ones before you draw anything, because they're input in the same way the designs are.
@@ -126,6 +126,18 @@ Two lists in the README, because a plan that can't say what it's standing on can
 **Why this split and not another one.** The boundaries you weighed and rejected, a line each. The README says what the nine workstreams are and never why those nine, so when the direction changes someone has to reconstruct your reasoning before they can tell what still holds.
 
 **What you decided on the user's behalf**, where they weren't there to ask. Mark each one as yours rather than theirs, and say so in the prompt that owns it, so the first agent to reach it logs a `challenge` and asks rather than quietly building on your guess.
+
+## If they run as subagents instead of sessions
+
+The split, the grid, the phases and the shared folder are the same. What changes is that nobody is there to answer a question mid-flight, so the questions have to be gone before dispatch.
+
+- **Settle every "point to settle" yourself, with the user, before anything runs.** The brief carries answers and their reasons instead of questions. Anything genuinely open is either a decision the user makes now or scope that gets dropped now. A subagent that meets an open question will guess or stall, and either way you find out late.
+- **Do the research up front, into `background.md`.** A dispatched subagent often can't dispatch subagents of its own, so "research this through your own subagents" is an instruction it can't follow. Check whether it can before you write it.
+- **The approval gates become yours.** Each brief says what comes back to you and when. You hold the gate, because the agent has nobody to ask.
+- **Use `superpowers:subagent-driven-development` for the dispatching and reviewing**, rather than writing your own.
+- **Still write the prompt files.** They're what you hand each subagent, and unlike a dispatch they outlive the session, so a person can pick the work up later.
+
+Say in the README which way this plan is written for. A brief built for a subagent makes a poor prompt for a person, because its questions have already been answered and they can't disagree with the answers. A prompt built for a person stalls a subagent at the first question.
 
 ## Review the set before you hand it over
 

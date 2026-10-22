@@ -1,7 +1,7 @@
 {
   "name": "workstream-planning",
   "description": "Split work too large for one agent session into workstreams with a prompt each, and keep the decisions behind it as records in the repository",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": { "name": "Aaron Machin" },
   "homepage": "https://github.com/AaronMachin/claude-skills",
   "repository": "https://github.com/AaronMachin/claude-skills",
