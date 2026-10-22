@@ -52,7 +52,7 @@ Prefer a workstream that cuts through every layer of one capability to one that 
 
 Split it if it has more than about five open questions to settle with the user, if it delivers more than one thing a person using the product would notice separately, or if its parts could be reviewed independently. Join two if they would change the same file for the same reason. Check the line you wrote for it: if it needs an "and" or a comma list, that's the one to split.
 
-The line says what someone can do afterwards that they couldn't before, and it comes with how you'd know it's true. "Permission check on every API route" is a layer. "A Site manager opening the Partners tab is refused, and a test fails on any route that names no permission" is a deliverable you can check.
+The line says what someone can do afterwards that they couldn't before, and it comes with how you'd know it's true. "Validation on every form" is a layer. "Someone submitting an order with an expired card is told why it was refused, and a test fails for any payment path that doesn't say" is a deliverable you can check.
 
 ## The shared folder
 
@@ -83,7 +83,7 @@ The log gets long, so agents read it by filter rather than from the top: `grep -
 
 ## Numbering
 
-`<phase><letter>-<name>.md`. The number is the phase and it follows the order work can start, so the filenames stay readable as "what can I launch now". The letter marks prompts in the same phase that run at the same time, and only appears when a phase holds two or more. Letters don't restart each phase, so a workstream keeps its letter when its phase moves: `0A-user-pool.md`, `0B-dev-idps.md`, `1C-idp-api.md`, `2-integration.md`. If everything runs one after another in a single checkout, drop the letters: the phases are just an ordered list.
+`<phase><letter>-<name>.md`. The number is the phase and it follows the order work can start, so the filenames stay readable as "what can I launch now". The letter marks prompts in the same phase that run at the same time, and only appears when a phase holds two or more. Letters don't restart each phase, so a workstream keeps its letter when its phase moves: `0A-schema.md`, `0B-test-fixtures.md`, `1C-import-api.md`, `2-integration.md`. If everything runs one after another in a single checkout, drop the letters: the phases are just an ordered list.
 
 A new phase needs a real dependency, not tidiness. Push each workstream into the earliest phase it can sit in, and say in the README what each phase is actually waiting for.
 
@@ -134,7 +134,7 @@ Reading each prompt on its own won't find the errors that live between them. Do 
 **The structural pass, in your own context**, because it needs the whole set and the conversation that produced it. Build one table, a row per workstream: what it delivers, what it waits for, what waits on it, the files it changes, the contracts it logs, the ticket. Then check:
 
 - Every dependency points backwards. If A waits on B, B is in an earlier phase. Two that wait on each other are one workstream, or the shared part splits out into its own earlier one.
-- Every "waits for" names a thing, not a workstream. "Waits for 03" can't be checked. "Waits for 03's permission keys to be in the log" can.
+- Every "waits for" names a thing, not a workstream. "Waits for 03" can't be checked. "Waits for 03's error codes to be in the log" can.
 - Nothing is delivered by two prompts. Shared context gets repeated wherever both agents need it; shared work doesn't.
 - Nothing is delivered by nobody. Every contract a prompt says it will use is one another prompt says it will log.
 - The order survives the slowest workstream. If one in an early phase is several times the size of the rest, say so and ask the user whether to split it or let the others start against its logged contracts.

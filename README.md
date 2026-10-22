@@ -1,23 +1,43 @@
 # claude-skills
 
-Skills for Claude Code.
+Two skills for Claude Code, for work that is too big for one agent session.
+
+## Installing
+
+```
+/plugin marketplace add AaronMachin/claude-skills
+/plugin install workstream-planning@claude-skills
+```
+
+Then start a new session. To take a single skill without the plugin, copy its folder from
+`workstream-planning/skills/` into `~/.claude/skills/` instead.
+
+Both need the [superpowers](https://github.com/obra/superpowers) plugin, from the official
+marketplace. `planning-workstreams` uses `superpowers:brainstorming`, and the prompts it
+writes point their own agents at `superpowers:writing-plans`,
+`superpowers:using-git-worktrees` and the build-and-verify skills.
 
 ## planning-workstreams
 
-Splits a large piece of work into workstreams and writes the prompt that starts each one, so several agents can run it at the same time or one after another.
+Splits a large piece of work into workstreams and writes the prompt that starts each one, so
+several agents can run them at the same time or one after another.
 
-It produces a shared folder holding a dependency grid, a phase table with separate orders for specifying and building, the decisions that are settled before anyone starts, an append-only log every agent writes to, and one prompt per workstream.
+It produces a shared folder holding a diagram of the system, a dependency grid, a phase table
+with separate orders for specifying and building, what the plan assumes and what the planner
+decided on your behalf, an append-only log every agent writes to, and one prompt per workstream.
 
-Each prompt hands its agent a piece of the problem to work out rather than a list of tasks, so the agent runs its own brainstorm, spec and plan for its slice.
+Each prompt hands its agent a piece of the problem to work out rather than a list of tasks, so
+the agent runs its own brainstorm, spec and plan for its slice. It also says what that
+workstream may change, what it may do outside the working tree, and how it knows it has
+finished.
 
-### Installing
+## decision-records
 
-Copy the folder into your skills directory and start a new session:
+Records a technical decision about a codebase as two files: a short frozen statement that
+everything cites, and an optional details file holding the working behind it. Accepted records
+are never edited, so changing a decision means a new record that supersedes the old one, which
+is what keeps the reasoning as it was rather than as someone later wished it had been.
 
-```
-cp -r planning-workstreams ~/.claude/skills/
-```
-
-### Requires
-
-The superpowers plugin, from the official plugin marketplace. The skill uses `superpowers:brainstorming`, and the prompts it writes point their agents at `superpowers:writing-plans` and `superpowers:using-git-worktrees`.
+It is deliberately not your organisation's architecture decision process. If reversing a
+decision would take another team, a customer or a contract, it belongs in whichever process
+covers that, and this skill says so rather than recording it.

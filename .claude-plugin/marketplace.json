@@ -1,0 +1,13 @@
+{
+  "name": "claude-skills",
+  "description": "Skills for planning large pieces of work across several agents, and for recording the decisions made along the way",
+  "owner": { "name": "Aaron Machin" },
+  "plugins": [
+    {
+      "name": "workstream-planning",
+      "description": "Split work too large for one agent session into workstreams with a prompt each, and keep the decisions behind it as records in the repository",
+      "source": "./workstream-planning",
+      "category": "development"
+    }
+  ]
+}
