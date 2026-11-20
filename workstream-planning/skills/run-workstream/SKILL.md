@@ -43,7 +43,9 @@ Then three lines underneath: what can start right now, what's waiting and on wha
 
 ## Starting one
 
-The user picks. Give them one copyable block and nothing else in it: the worktree command from `common.md` with this workstream's values filled in, the absolute path of its prompt, and the line to paste into the new session.
+The user picks. Give them one copyable block and nothing else in it: the worktree command from `common.md` with this workstream's values filled in, the command that starts the session under its name (`claude -n "<key> <title>"`), the absolute path of its prompt, and the line to paste into the new session.
+
+The title comes from the plan, never made up here: the prompt's opening line and the README table both carry it. The key is the prompt's prefix plus the next session number for that workstream, so `1B1` if `log.md` has no entries under `1B` yet, and one more than the highest it has if it does. Where the README and the prompt give different titles, say so and use the prompt's.
 
 If a readiness check failed, say that before the block, not after. Giving someone the command and mentioning underneath that it can't run yet is how they end up halfway in.
 
