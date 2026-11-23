@@ -27,6 +27,8 @@ Each settled answer goes to one of three places:
 | The agent docs (CLAUDE.md, AGENTS.md, `.ai/rules`, whatever this repository uses) | An agent would break the rule without being told, but the rule is enough on its own and any reasoning fits in a clause | "Never log the identity provider's client secret, Telescope included" |
 | A decision record | The why is the point, and it isn't visible in the code | Identity provider rows are soft-deleted because the activity log needs their history, even though a hard delete looks simpler |
 
+Agent docs cost context in every session that loads them, so put the line where it loads only for the work it's about. Prefer a rule file scoped to the paths the rule covers (for example one that loads only for the command classes) over a file every session reads, like the root CLAUDE.md. If no scoped file covers those paths, add one rather than growing the root file. A line goes in the root file only when it applies to most of the repository.
+
 When it goes in the code or the agent docs, the reasoning still gets written down once: say why we chose it in the pull request description. A reviewer reads it there now, and `git blame` leads anyone who asks later back to it.
 
 None of these get a record either. They go in the pull request description, the spec or the commit message:
