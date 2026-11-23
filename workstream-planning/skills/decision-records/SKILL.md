@@ -17,9 +17,19 @@ A record here can cite one of those larger decisions as its input, and never con
 
 ## Only decisions worth keeping
 
-Being decided isn't enough. A record has to change what someone does to this code later: without it, a person or an agent would undo the choice, bring back something that was ruled out, or not understand why the code is the way it is. If nobody would, it isn't a record.
+Most decisions don't need a record. A record is for when the why is the valuable part: real options were weighed, the one we turned down still looks tempting, and the reasoning can't be read back from the code. Without the record, someone would undo the choice or bring the other option back. If the code or a line in the agent docs already tells a later reader enough, the decision lives there instead.
 
-These don't pass, and go in the pull request description, the spec or the commit message instead:
+Each settled answer goes to one of three places:
+
+| Where | When | Example |
+|---|---|---|
+| The code | The code shows what was decided clearly enough that nobody would undo it by accident: a name, a regex, a validation rule, a test that pins the behaviour | Emails are stored lowercase. The regex that normalises them, and its test, are enough |
+| The agent docs (CLAUDE.md, AGENTS.md, `.ai/rules`, whatever this repository uses) | An agent would break the rule without being told, but the rule is enough on its own and any reasoning fits in a clause | "Never log the identity provider's client secret, Telescope included" |
+| A decision record | The why is the point, and it isn't visible in the code | Identity provider rows are soft-deleted because the activity log needs their history, even though a hard delete looks simpler |
+
+When it goes in the code or the agent docs, the reasoning still gets written down once: say why we chose it in the pull request description. A reviewer reads it there now, and `git blame` leads anyone who asks later back to it.
+
+None of these get a record either. They go in the pull request description, the spec or the commit message:
 
 - A decision that leaves nothing in the code. "No change", "leave it as it is", or a reply to a review finding that ends in not acting on it. There's nothing for a later reader to undo.
 - Anything that only holds until something else happens: what gets deployed where until a migration, which environment we test against for now, a workaround until another piece of work lands. By the time someone reads the record it describes a situation that no longer exists.
@@ -32,13 +42,13 @@ For example, a review finds the template can still deploy to two staging cells t
 
 Another: the user agrees a temporary test pool is applied from their own machine with local state, nothing about it committed, and deleted once staging moves. It's temporary, it lives outside the repository, and it's about who runs what. A line in the pull request description covers it.
 
-When it's unclear, don't write one. A record that was missed can be written later from the pull request; one that shouldn't exist can't be deleted, because records are frozen.
+When it's unclear, don't write a record. Put it in the code or the agent docs, with the why in the pull request description. A record that was missed can be written later from the pull request; one that shouldn't exist can't be deleted, because records are frozen.
 
 Where the organisation calls its decisions ADRs, don't call these that as well. Two things with the same name and different authority in one codebase get confused, and the confusion is always about which one is binding.
 
 ## When a record is written
 
-The user's answer is the acceptance. When the user answers a question that settles a choice worth keeping (see above), or says something like that is decided, write the record in that same turn, before asking the next question. It's accepted from that moment. There is no proposed state and no separate step where the user approves the record.
+The user's answer is the acceptance. When the user answers a question that settles a choice whose why is worth a record (see above), or says something like that is decided, write the record in that same turn, before asking the next question. When the answer belongs in the code or the agent docs instead, make that change, and keep the why for the pull request description. It's accepted from that moment. There is no proposed state and no separate step where the user approves the record.
 
 One answer that settles two things is two records. An answer that isn't clear enough to write down is a question back to the user, not a record.
 
