@@ -24,10 +24,13 @@ These don't pass, and go in the pull request description, the spec or the commit
 - A decision that leaves nothing in the code. "No change", "leave it as it is", or a reply to a review finding that ends in not acting on it. There's nothing for a later reader to undo.
 - Anything that only holds until something else happens: what gets deployed where until a migration, which environment we test against for now, a workaround until another piece of work lands. By the time someone reads the record it describes a situation that no longer exists.
 - How the work is being done rather than what the code does: deploy steps, which account or cell to use, who runs what, what the README covers.
+- Anything about a thing that lives outside the repository: a test environment, someone's machine, local state, where secrets are kept. Deciding to keep it out of the repository ("nothing about the test pool is committed") is still a decision about that thing, not about the code.
 - A correction to the spec or the plan. Fix the spec.
 - A value that only fills in a detail (a port number, a variable's name, a timeout). It goes in the spec.
 
 For example, a review finds the template can still deploy to two staging cells that shouldn't run it yet. The user answers "it's only staging, we're only using eu-west-2 until we migrate". That settles something, but no code changes, it stops being true the day the migration happens, and it's about where we deploy rather than what the code does. It goes in the pull request description, not a record.
+
+Another: the user agrees a temporary test pool is applied from their own machine with local state, nothing about it committed, and deleted once staging moves. It's temporary, it lives outside the repository, and it's about who runs what. A line in the pull request description covers it.
 
 When it's unclear, don't write one. A record that was missed can be written later from the pull request; one that shouldn't exist can't be deleted, because records are frozen.
 
