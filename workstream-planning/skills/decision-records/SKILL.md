@@ -15,13 +15,27 @@ Not the organisation's architecture decisions. The test is what it takes to reve
 
 A record here can cite one of those larger decisions as its input, and never contradicts one. Work that needs something a larger decision rules out is an escalation to the user, not a record.
 
+## Only decisions worth keeping
+
+Being decided isn't enough. A record has to change what someone does to this code later: without it, a person or an agent would undo the choice, bring back something that was ruled out, or not understand why the code is the way it is. If nobody would, it isn't a record.
+
+These don't pass, and go in the pull request description, the spec or the commit message instead:
+
+- A decision that leaves nothing in the code. "No change", "leave it as it is", or a reply to a review finding that ends in not acting on it. There's nothing for a later reader to undo.
+- Anything that only holds until something else happens: what gets deployed where until a migration, which environment we test against for now, a workaround until another piece of work lands. By the time someone reads the record it describes a situation that no longer exists.
+- How the work is being done rather than what the code does: deploy steps, which account or cell to use, who runs what, what the README covers.
+- A correction to the spec or the plan. Fix the spec.
+- A value that only fills in a detail (a port number, a variable's name, a timeout). It goes in the spec.
+
+For example, a review finds the template can still deploy to two staging cells that shouldn't run it yet. The user answers "it's only staging, we're only using eu-west-2 until we migrate". That settles something, but no code changes, it stops being true the day the migration happens, and it's about where we deploy rather than what the code does. It goes in the pull request description, not a record.
+
+When it's unclear, don't write one. A record that was missed can be written later from the pull request; one that shouldn't exist can't be deleted, because records are frozen.
+
 Where the organisation calls its decisions ADRs, don't call these that as well. Two things with the same name and different authority in one codebase get confused, and the confusion is always about which one is binding.
 
 ## When a record is written
 
-The user's answer is the acceptance. When the user answers a question that settles a choice about this repository, or says something is decided, write the record in that same turn, before asking the next question. It's accepted from that moment. There is no proposed state and no separate step where the user approves the record.
-
-A key decision is one a later reader would need in order to understand the code or not undo it: a choice between real options, a rule the code follows, something ruled out. A detail the user answered that only fills in a value (a port number, a variable's name) goes in the spec, not a record.
+The user's answer is the acceptance. When the user answers a question that settles a choice worth keeping (see above), or says something like that is decided, write the record in that same turn, before asking the next question. It's accepted from that moment. There is no proposed state and no separate step where the user approves the record.
 
 One answer that settles two things is two records. An answer that isn't clear enough to write down is a question back to the user, not a record.
 
@@ -124,4 +138,4 @@ A workstream agent writing a record when the user answers also logs the `decisio
 
 A `challenge` entry is the trigger, not a second procedure. The agent logs it and asks the user as `common.md` already says, and the record written from the user's answer names the log entry.
 
-At hand-back, the person taking the work reads `deviations.md` and writes a record for every row that changed a decision rather than finished one. That folder is machine-local and gets thrown away, so it happens then or not at all.
+At hand-back, the person taking the work reads `deviations.md` and writes a record for every row that changed a decision worth keeping rather than finished one. That folder is machine-local and gets thrown away, so it happens then or not at all.
